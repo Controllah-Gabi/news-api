@@ -10,4 +10,7 @@ exports.getArticleByID = (req,res,next) =>{
     selectArticleByID(req.params.article_id).then((data)=>{
         res.status(200).send({article: data})
     })
+    .catch((err)=>{
+        next(err);
+    })
 }

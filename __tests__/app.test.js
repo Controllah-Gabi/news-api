@@ -81,7 +81,6 @@ describe("5. GET /api/articles/:article_id",()=>{
         .get("/api/articles/1")
         .expect(200)
         .then(data=>{
-            console.log(data.body.article[0])
             expect(data.body.article[0]).toEqual(
                 {
                 article_id: 1,
@@ -92,6 +91,14 @@ describe("5. GET /api/articles/:article_id",()=>{
                 created_at: expect.any(String),
                 votes: expect.any(Number),
             })
+        })
+    })
+    test("should return error message if id is invalid",()=>{
+        return request(app)
+        .get("/api/articles/1000")
+        .expect(404)
+        .then(data=>{
+            expect(data.body.msg).toBe("Invalid ID")
         })
     })
 })
