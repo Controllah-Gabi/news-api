@@ -38,3 +38,38 @@ describe("GET/api/topics",()=>{
           })
       })
   })  
+
+  describe('4. GET /api/articles',()=>{
+    test('returns 200 with all articles data',()=>{
+        return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then((data)=>{
+            expect(data.body.article).toBeInstanceOf(Array);
+            data.body.article.forEach((element)=>{
+                expect(element).toEqual(
+                    expect.objectContaining({
+                        article_id: expect.any(Number),
+                        title: expect.any(String),
+                        topic: expect.any(String),
+                        author: expect.any(String),
+                        body: expect.any(String),
+                        created_at: expect.any(String),
+                        votes: expect.any(Number),
+                    })
+                )
+            })
+        })
+    })
+  })
+
+  describe("GET/api/articl return error message",()=>{
+    test('should return 404 error if there is a spelling mistake', () => { 
+        return request(app)
+        .get("/api/articl")
+        .expect(404)
+        .then((res)=>{
+            expect(res.body).toEqual({msg: "Path not found"})
+            })
+        })
+    })
