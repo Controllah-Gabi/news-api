@@ -16,7 +16,6 @@ describe("GET/api/topics",()=>{
         .get("/api/topics")
         .expect(200)
         .then((res)=>{
-            console.log(res.body)
             expect(res.body.topic).toBeInstanceOf(Array);
             res.body.topic.forEach((topic)=>{
                 expect(topic).toEqual(
@@ -34,7 +33,6 @@ describe("GET/api/topics",()=>{
           .get("/api/topic")
           .expect(404)
           .then((res)=>{
-              console.log(res.body)
               expect(res.body).toEqual({msg: "Path not found"})
               })
           })
