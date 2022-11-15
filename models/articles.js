@@ -7,7 +7,7 @@ exports.selectArticle = () =>{
 }
 
 exports.selectArticleByID = (id)=>{
-    pool.query('SELECT * FROM articles WHERE article_id =$1',[id]).then((data=>{
+    return pool.query('SELECT * FROM articles WHERE article_id =$1',[id]).then((data=>{
         return data.rows;
     }))
 }

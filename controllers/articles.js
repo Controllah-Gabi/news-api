@@ -7,7 +7,7 @@ exports.getArticles = (req,res,next)=>{
 }
 
 exports.getArticleByID = (req,res,next) =>{
-    selectArticleByID(req.params).then(data=>{
+    selectArticleByID(req.params.article_id).then((data)=>{
         res.status(200).send({article: data})
     })
 }

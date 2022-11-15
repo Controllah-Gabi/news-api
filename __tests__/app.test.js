@@ -74,3 +74,24 @@ describe("GET/api/topics",()=>{
             })
         })
     })
+
+describe("5. GET /api/articles/:article_id",()=>{
+    test('should return 200 with the article with the specified id',()=>{
+        return request(app)
+        .get("/api/articles/1")
+        .expect(200)
+        .then(data=>{
+            console.log(data.body.article[0])
+            expect(data.body.article[0]).toEqual(
+                {
+                article_id: 1,
+                title: expect.any(String),
+                topic: expect.any(String),
+                author: expect.any(String),
+                body: expect.any(String),
+                created_at: expect.any(String),
+                votes: expect.any(Number),
+            })
+        })
+    })
+})
