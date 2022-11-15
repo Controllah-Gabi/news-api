@@ -45,8 +45,9 @@ describe("GET/api/topics",()=>{
         .get("/api/articles")
         .expect(200)
         .then((data)=>{
-            expect(data.body.article).toBeInstanceOf(Array);
-            data.body.article.forEach((element)=>{
+            expect(data.body.articles).toBeInstanceOf(Array);
+            expect(data.body.articles.length).toBeGreaterThan(0)
+            data.body.articles.forEach((element)=>{
                 expect(element).toEqual(
                     expect.objectContaining({
                         article_id: expect.any(Number),
