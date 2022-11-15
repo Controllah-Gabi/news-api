@@ -102,3 +102,11 @@ describe("5. GET /api/articles/:article_id",()=>{
         })
     })
 })
+
+describe("/api/articles/:article_id/comments",()=>{
+    test('should return all comment of the specified article', () => { 
+        return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        })
+    })
