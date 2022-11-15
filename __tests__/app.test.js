@@ -1,8 +1,14 @@
 const request = require("supertest");
 const app = require("../app.js")
 const pool = require("../db/connection")
+const seed = require("../db/seeds/seed");
+const testData = require("../db/data/test-data/index");
 
+beforeEach(() => seed(testData));
 
+afterAll(() => {
+  if (pool.end) pool.end();
+});
 
 describe("GET/api/topics",()=>{
     test('should return all topics', () => { 
@@ -15,7 +21,6 @@ describe("GET/api/topics",()=>{
             res.body.topic.forEach((topic)=>{
                 expect(topic).toEqual(
                     expect.objectContaining({
-                        topic_id: expect.any(Number),
                         slug: expect.any(String),
                         description: expect.any(String),
                     })
