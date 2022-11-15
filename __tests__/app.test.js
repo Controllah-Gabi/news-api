@@ -74,3 +74,31 @@ describe("GET/api/topics",()=>{
             })
         })
     })
+
+describe("5. GET /api/articles/:article_id",()=>{
+    test('should return 200 with the article with the specified id',()=>{
+        return request(app)
+        .get("/api/articles/1")
+        .expect(200)
+        .then(data=>{
+            expect(data.body.article[0]).toEqual(
+                {
+                article_id: 1,
+                title: 'Living in the shadow of a great man',
+                topic: 'mitch',
+                author: 'butter_bridge',
+                body: 'I find this existence challenging',
+                created_at: '2020-07-09T20:11:00.000Z',
+                votes: 100
+      })
+        })
+    })
+    test("should return error message if id is invalid",()=>{
+        return request(app)
+        .get("/api/articles/1000")
+        .expect(404)
+        .then(data=>{
+            expect(data.body.msg).toBe("Invalid ID")
+        })
+    })
+})
