@@ -108,5 +108,38 @@ describe("/api/articles/:article_id/comments",()=>{
         return request(app)
         .get("/api/articles/1/comments")
         .expect(200)
+        .then(data=>{
+            expect(data.body.comment).toBeInstanceOf(Array);
+            data.body.comment.forEach(element=>{
+                expect(element).toEqual(
+                    expect.objectContaining({
+                        comment_id: expect.any(Number),
+                        body: expect.any(String),
+                        article_id: 1,
+                        author: expect.any(String),
+                        votes: expect.any(Number),
+                        created_at: expect.any(String)
+                    })
+                )
+            })
+
+        })
+        })
+        test("should return error message if id is invalid",()=>{
+            return request(app)
+            .get("/api/articles/12/comments")
+            .expect(404)
+            .then(data=>{
+                expect(data.body.msg).toBe("Invalid ID")
+            })
+        })
+
+        test("should return error message if spelling mistake",()=>{
+            return request(app)
+            .get("/api/articles/12/comment")
+            .expect(404)
+            .then(data=>{
+                expect(data.body.msg).toBe("Path not found")
+            })
         })
     })

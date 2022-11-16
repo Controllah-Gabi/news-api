@@ -18,6 +18,3 @@ exports.selectArticleByID = (id)=>{
     }))
 }
 
-exports.selectCommentsByID = (id)=>{
-    return pool.query('SELECT * FROM articles WHERE article_id =$1',[id])
-}
