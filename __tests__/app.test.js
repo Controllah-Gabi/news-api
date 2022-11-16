@@ -126,7 +126,7 @@ describe("/api/articles/:article_id/comments",()=>{
 
         })
         })
-        test("should return error message if id is invalid",()=>{
+        test("should return error message if article exists but there are no comments",()=>{
             return request(app)
             .get("/api/articles/12/comments")
             .expect(404)
