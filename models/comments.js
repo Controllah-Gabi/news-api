@@ -1,13 +1,14 @@
-const pool = require("../db/connection")
+const pool = require("../db/connection");
+const { checkArticleExists } = require("../utils/db");
 
 exports.selectCommentsByID = (id) =>{
-    return pool.query('SELECT * FROM comments WHERE article_id =$1 ORDER BY created_at',[id]).then((data)=>{
-        if(data.rows.length === 0){
-            return Promise.reject({
-                status: 404,
-                msg: "Invalid ID"
-            })
-        }
-        return data.rows;
+    return checkArticleExists(id)
+    .then(()=>{
+        return pool.query('SELECT * FROM comments WHERE article_id =$1 ORDER BY created_at',[id])
     })
-}
+    .then((res)=>{
+        return res.rows;
+    })
+};
+        
+   

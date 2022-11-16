@@ -109,8 +109,9 @@ describe("/api/articles/:article_id/comments",()=>{
         .get("/api/articles/1/comments")
         .expect(200)
         .then(data=>{
-            expect(data.body.comment).toBeInstanceOf(Array);
-            data.body.comment.forEach(element=>{
+            expect(data.body.comments).toBeInstanceOf(Array);
+            expect(data.body.comments.length).toBeGreaterThan(0)
+            data.body.comments.forEach(element=>{
                 expect(element).toEqual(
                     expect.objectContaining({
                         comment_id: expect.any(Number),
