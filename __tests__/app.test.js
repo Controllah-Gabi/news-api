@@ -126,12 +126,12 @@ describe("/api/articles/:article_id/comments",()=>{
 
         })
         })
-        test("should return error message if article exists but there are no comments",()=>{
+        test("should return empty array if article exists but there are no comments",()=>{
             return request(app)
             .get("/api/articles/12/comments")
-            .expect(404)
+            .expect(200)
             .then(data=>{
-                expect(data.body.msg).toBe("Invalid ID")
+                expect(data.body.comments).toEqual([])
             })
         })
 
@@ -141,6 +141,15 @@ describe("/api/articles/:article_id/comments",()=>{
             .expect(404)
             .then(data=>{
                 expect(data.body.msg).toBe("Path not found")
+            })
+        })
+
+        test("should return error message if article does not exist. 999 test",()=>{
+            return request(app)
+            .get("/api/articles/999/comments")
+            .expect(404)
+            .then(data=>{
+                expect(data.body.msg).toBe("Invalid ID")
             })
         })
     })
