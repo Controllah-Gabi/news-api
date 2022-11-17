@@ -183,7 +183,7 @@ describe("/api/articles/:article_id/comments",()=>{
                 }))
             })
         })
-        test.only("POST /api/articles/:article_id/comments when username does not exist",()=>{
+        test("POST /api/articles/:article_id/comments when username does not exist",()=>{
             const commentData = {
                 author: "heskey",
                 body: "dam, did you see what heskey did",
