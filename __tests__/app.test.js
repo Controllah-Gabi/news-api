@@ -102,3 +102,63 @@ describe("5. GET /api/articles/:article_id",()=>{
         })
     })
 })
+
+describe("/api/articles/:article_id/comments",()=>{
+    test('should return all comment of the specified article', () => { 
+        return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(data=>{
+            expect(data.body.comments).toBeInstanceOf(Array);
+            expect(data.body.comments.length).toBeGreaterThan(0)
+            data.body.comments.forEach(element=>{
+                expect(element).toEqual(
+                    expect.objectContaining({
+                        comment_id: expect.any(Number),
+                        body: expect.any(String),
+                        article_id: 1,
+                        author: expect.any(String),
+                        votes: expect.any(Number),
+                        created_at: expect.any(String)
+                    })
+                )
+            })
+
+        })
+        })
+        test("should return empty array if article exists but there are no comments",()=>{
+            return request(app)
+            .get("/api/articles/12/comments")
+            .expect(200)
+            .then(data=>{
+                expect(data.body.comments).toEqual([])
+            })
+        })
+
+        test("should return error message if spelling mistake",()=>{
+            return request(app)
+            .get("/api/articles/12/comment")
+            .expect(404)
+            .then(data=>{
+                expect(data.body.msg).toBe("Path not found")
+            })
+        })
+
+        test("should return error message if article does not exist. 999 test",()=>{
+            return request(app)
+            .get("/api/articles/999/comments")
+            .expect(404)
+            .then(data=>{
+                expect(data.body.msg).toBe("Invalid ID")
+            })
+        })
+
+        test("/api/articles/sports/comments this is when the article id is not a number",()=>{
+            return request(app)
+            .get("/api/articles/sports/comments")
+            .expect(404)
+            .then((data)=>{
+                expect(data.body.msg).toBe("Invalid ID")
+            })
+        })
+    })
