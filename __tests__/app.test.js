@@ -152,4 +152,13 @@ describe("/api/articles/:article_id/comments",()=>{
                 expect(data.body.msg).toBe("Invalid ID")
             })
         })
+
+        test.only("/api/articles/sports/comments this is when the article id is not a number",()=>{
+            return request(app)
+            .get("/api/articles/sports/comments")
+            .expect(404)
+            .then((data)=>{
+                expect(data.body.msg).toBe("Invalid ID")
+            })
+        })
     })
