@@ -153,7 +153,7 @@ describe("/api/articles/:article_id/comments",()=>{
             })
         })
 
-        test.only("/api/articles/sports/comments this is when the article id is not a number",()=>{
+        test("/api/articles/sports/comments this is when the article id is not a number",()=>{
             return request(app)
             .get("/api/articles/sports/comments")
             .expect(404)
