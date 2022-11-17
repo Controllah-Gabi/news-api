@@ -1,7 +1,7 @@
 const pool = require("../db/connection")
 
 exports.checkArticleExists = (article_id) => {
-    if(typeof article_id !== Number){
+    if(isNaN(article_id)){
         return Promise.reject({
             status: 404,
             msg: "Invalid ID"
