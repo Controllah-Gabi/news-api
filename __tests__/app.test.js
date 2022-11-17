@@ -167,7 +167,6 @@ describe("/api/articles/:article_id/comments",()=>{
         const commentData = {
             author: "icellusedkars",
             body: "dam, did you see what heskey did",
-            article_id: 1
         }
         test("post valid comment should return with 200, the comment with a unique id",()=>{
             return request(app)
@@ -188,7 +187,6 @@ describe("/api/articles/:article_id/comments",()=>{
             const commentData = {
                 author: "heskey",
                 body: "dam, did you see what heskey did",
-                article_id: 1
             }
             return request(app)
             .post("/api/articles/1/comments")
