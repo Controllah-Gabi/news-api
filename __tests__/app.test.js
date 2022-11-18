@@ -242,7 +242,39 @@ describe("/api/articles/:article_id/comments",()=>{
             .send(commentData)
             .expect(404)
             .then((data)=>{
-                expect(data.body.msg).toBe("Missing all fields")
+                expect(data.body.msg).toBe("Missing field")
+            })
+        })
+    })
+
+    describe("PATCH /api/articles/:article_id",()=>{
+        test("increments votes by 2 when passed an inc_votes:2",()=>{
+            return request(app)
+            .patch('/api/articles/1')
+            .send({inc_votes: 2})
+            .expect(201)
+            .then(({body})=>{
+                expect(body.articles).toEqual(
+                    {
+                        article_id: 1,
+                        title: 'Living in the shadow of a great man',
+                        topic: 'mitch',
+                        author: 'butter_bridge',
+                        body: 'I find this existence challenging',
+                        created_at: '2020-07-09T20:11:00.000Z',
+                        votes: 102
+                      }
+                )
+            })
+        })
+
+        test("returns 404 error when article ID is invalid or does not exist",()=>{
+            return request(app)
+            .patch('/api/articles/100000')
+            .send({inc_votes: 2})
+            .expect(404)
+            .then(({body})=>{
+                expect(body.msg).toBe("Invalid ID")
             })
         })
     })
