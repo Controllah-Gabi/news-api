@@ -1,4 +1,4 @@
-const {selectArticle,selectArticleByID} = require("../models/articles")
+const {selectArticle,selectArticleByID, updateArticlesByArticleId} = require("../models/articles")
 
 exports.getArticles = (req,res,next)=>{
     selectArticle().then((article)=>{
@@ -15,3 +15,14 @@ exports.getArticleByID = (req,res,next) =>{
     })
 }
 
+exports.patchArticleByArticleId = (req,res,next)=>{
+    const {article_id} = req.params;
+    const newVote = req.body.inc_votes;
+    updateArticlesByArticleId(article_id, newVote).then((articles)=>{
+        res.status(201).send({articles})
+    })
+    .catch((err)=>{
+        next(err);
+    })
+
+}
