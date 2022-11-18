@@ -15,6 +15,17 @@ exports.checkArticleExists = (article_id) => {
                     msg: "Invalid ID"
                 })
             }
-    
     });
     }
+
+    exports.checkUserExists = (username) => {
+        return pool.query(
+            'SELECT * FROM articles WHERE author =$1',[username]).then((data)=>{
+                if(data.rows.length === 0){
+                    return Promise.reject({
+                        status: 404,
+                        msg: "Username does not exist"
+                    })
+                }
+        });
+        }

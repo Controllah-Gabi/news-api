@@ -1,16 +1,20 @@
 const express = require('express');
 const { getTopics } = require('./controllers/topics.js');
 const {getArticles,getArticleByID} = require('./controllers/articles.js');
-const { getCommentsByID } = require('./controllers/comments');
+const { getCommentsByID, postComment } = require('./controllers/comments');
 
 
 const app = express();
 app.use(express.json());
 
+//get requests 
 app.get('/api/topics',getTopics);
 app.get('/api/articles',getArticles);
 app.get('/api/articles/:article_id',getArticleByID);
 app.get('/api/articles/:article_id/comments',getCommentsByID);
+// post requets
+app.post('/api/articles/:article_id/comments',postComment);
+
 //errors
 app.use((err,req,res,next)=>{
     if(err.status !== undefined && err.msg !== undefined){
