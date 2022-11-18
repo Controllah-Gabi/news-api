@@ -177,7 +177,7 @@ describe("/api/articles/:article_id/comments",()=>{
                 expect(data.body.comment).toEqual(expect.objectContaining({
                     body: "dam, did you see what heskey did",
                     article_id: 1,
-                    author: "icellusedkars",
+                    username: "icellusedkars",
                     comment_id: 19,
                     created_at: expect.any(String)
                 }))
@@ -194,6 +194,55 @@ describe("/api/articles/:article_id/comments",()=>{
             .expect(404)
             .then((data)=>{
                 expect(data.body.msg).toBe("Username does not exist")
+            })
+        })
+        test("POST /api/articles/:article_id/comments when article does not exist",()=>{
+            const commentData = {
+                author: "icellusedkars",
+                body: "dam, did you see what heskey did",
+            }
+            return request(app)
+            .post("/api/articles/1000/comments")
+            .send(commentData)
+            .expect(404)
+            .then((data)=>{
+                expect(data.body.msg).toBe("Invalid ID")
+            })
+        })
+        test("POST /api/articles/:article_id/comments when article_id is string",()=>{
+            const commentData = {
+                author: "icellusedkars",
+                body: "dam, did you see what heskey did",
+            }
+            return request(app)
+            .post("/api/articles/sports/comments")
+            .send(commentData)
+            .expect(404)
+            .then((data)=>{
+                expect(data.body.msg).toBe("Invalid ID")
+            })
+        })
+        test("POST /api/articles/:article_id/comments when post missing username",()=>{
+            const commentData = {
+                body: "dam, did you see what heskey did",
+            }
+            return request(app)
+            .post("/api/articles/1/comments")
+            .send(commentData)
+            .expect(404)
+            .then((data)=>{
+                expect(data.body.msg).toBe("Missing field")
+            })
+        })
+        test("POST /api/articles/:article_id/comments when post is empty object",()=>{
+            const commentData = {
+            }
+            return request(app)
+            .post("/api/articles/1/comments")
+            .send(commentData)
+            .expect(404)
+            .then((data)=>{
+                expect(data.body.msg).toBe("Missing all fields")
             })
         })
     })

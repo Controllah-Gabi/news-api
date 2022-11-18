@@ -15,7 +15,6 @@ exports.checkArticleExists = (article_id) => {
                     msg: "Invalid ID"
                 })
             }
-    
     });
     }
 
