@@ -29,5 +29,18 @@ exports.updateArticlesByArticleId = (id,increment) =>{
           }
         return data.rows[0]
     })
+    .catch(err=>{
+        if(err.code = "22P02"){
+            return Promise.reject({
+                status: 404,
+                msg: "invalid input syntax for type integer",
+              });
+        }
+
+        return Promise.reject({
+            status: 404,
+            msg: "Invalid ID",
+          });
+    })
 }
 

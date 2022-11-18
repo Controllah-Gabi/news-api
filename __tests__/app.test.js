@@ -277,4 +277,44 @@ describe("/api/articles/:article_id/comments",()=>{
                 expect(body.msg).toBe("Invalid ID")
             })
         })
+
+        test("returns 404 error when article ID is invalid or does not exist",()=>{
+            return request(app)
+            .patch('/api/articles/sports')
+            .send({inc_votes: 2})
+            .expect(404)
+            .then(({body})=>{
+                expect(body.msg).toBe("Invalid ID")
+            })
+        })
+
+        test("returns 404 error when there is a spelling mistake",()=>{
+            return request(app)
+            .patch('/api/article/1')
+            .send({inc_votes: 2})
+            .expect(404)
+            .then(({body})=>{
+                expect(body.msg).toBe("Path not found")
+            })
+        })
+
+        test("returns 404 error when increment is NaN",()=>{
+            return request(app)
+            .patch('/api/articles/1')
+            .send({inc_votes: "hello"})
+            .expect(404)
+            .then(({body})=>{
+                expect(body.msg).toBe("invalid input syntax for type integer")
+            })
+        })
+
+        test("returns 404 error when inc_votes is not used",()=>{
+            return request(app)
+            .patch('/api/articles/1')
+            .send({inc_: 1})
+            .expect(404)
+            .then(({body})=>{
+                expect(body.msg).toBe("invalid input syntax for type integer")
+            })
+        })
     })
