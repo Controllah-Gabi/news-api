@@ -19,8 +19,6 @@ exports.selectArticleByID = (id)=>{
 }
 
 exports.updateArticlesByArticleId = (id,increment) =>{
-    increment === undefined? increment = "hello": increment
-
     return pool.query("UPDATE articles SET votes = votes + $1 WHERE article_id=$2 RETURNING *;",[increment,id])
     .then(data=>{
         if (data.rows.length === 0) {
@@ -29,7 +27,6 @@ exports.updateArticlesByArticleId = (id,increment) =>{
               msg: "Invalid ID",
             });
           }
-        
         return data.rows[0]
     })
 }

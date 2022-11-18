@@ -29,7 +29,7 @@ app.use((err,req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     if(err.code === "23502"){
-        res.status(404).send({msg: err.msg})
+        res.status(404).send({msg: "Path not found"})
     }else{
         next(err);
     }

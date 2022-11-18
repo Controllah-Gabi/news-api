@@ -312,9 +312,9 @@ describe("/api/articles/:article_id/comments",()=>{
             return request(app)
             .patch('/api/articles/1')
             .send({inc_: 1})
-            .expect(400)
+            .expect(404)
             .then(({body})=>{
-                expect(body.msg).toBe("Bad request")
+                expect(body.msg).toBe("Path not found")
             })
         })
     })
