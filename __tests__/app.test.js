@@ -268,23 +268,23 @@ describe("/api/articles/:article_id/comments",()=>{
             })
         })
 
-        test("returns 404 error when article ID is invalid or does not exist",()=>{
+        test("returns 404 error when article ID is invalid but is an integer",()=>{
             return request(app)
             .patch('/api/articles/100000')
             .send({inc_votes: 2})
-            .expect(404)
+            .expect(400)
             .then(({body})=>{
                 expect(body.msg).toBe("Invalid ID")
             })
         })
 
-        test("returns 404 error when article ID is invalid or does not exist",()=>{
+        test("returns 404 error when article ID is not found",()=>{
             return request(app)
             .patch('/api/articles/sports')
             .send({inc_votes: 2})
-            .expect(404)
+            .expect(400)
             .then(({body})=>{
-                expect(body.msg).toBe("Invalid ID")
+                expect(body.msg).toBe("Bad request")
             })
         })
 
@@ -298,23 +298,23 @@ describe("/api/articles/:article_id/comments",()=>{
             })
         })
 
-        test("returns 404 error when increment is NaN",()=>{
+        test("returns 400 error when increment is NaN",()=>{
             return request(app)
             .patch('/api/articles/1')
             .send({inc_votes: "hello"})
-            .expect(404)
+            .expect(400)
             .then(({body})=>{
-                expect(body.msg).toBe("invalid input syntax for type integer")
+                expect(body.msg).toBe("Bad request")
             })
         })
 
-        test("returns 404 error when inc_votes is not used",()=>{
+        test("returns 400 error when inc_votes is not used",()=>{
             return request(app)
             .patch('/api/articles/1')
             .send({inc_: 1})
-            .expect(404)
+            .expect(400)
             .then(({body})=>{
-                expect(body.msg).toBe("invalid input syntax for type integer")
+                expect(body.msg).toBe("Bad request")
             })
         })
     })

@@ -19,28 +19,18 @@ exports.selectArticleByID = (id)=>{
 }
 
 exports.updateArticlesByArticleId = (id,increment) =>{
+    increment === undefined? increment = "hello": increment
+
     return pool.query("UPDATE articles SET votes = votes + $1 WHERE article_id=$2 RETURNING *;",[increment,id])
     .then(data=>{
         if (data.rows.length === 0) {
             return Promise.reject({
-              status: 404,
+              status: 400,
               msg: "Invalid ID",
             });
           }
+        
         return data.rows[0]
-    })
-    .catch(err=>{
-        if(err.code = "22P02"){
-            return Promise.reject({
-                status: 404,
-                msg: "invalid input syntax for type integer",
-              });
-        }
-
-        return Promise.reject({
-            status: 404,
-            msg: "Invalid ID",
-          });
     })
 }
 
