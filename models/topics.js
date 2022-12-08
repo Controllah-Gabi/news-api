@@ -5,3 +5,10 @@ exports.selectTopic = () =>{
         return data.rows;
     })
 }
+
+exports.selectArticlesByTopic = (topic) =>{
+    return pool.query('SELECT * FROM articles WHERE topic=$1;',[topic]).then((data)=>{
+        console.log(data.rows)
+        return data.rows;
+    })
+  }
